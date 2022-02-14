@@ -7,16 +7,14 @@ from unet import *
 import os
 import matplotlib.pyplot as plt
 
-jpg = os.listdir('/content/unet-improvement/semantic_segmentation_unet/data/train_images')[0]
-jpg_mask = os.listdir('/content/unet-improvement/semantic_segmentation_unet/data/train_masks')[0]
-img_train = Image.open(f"/content/unet-improvement/semantic_segmentation_unet/data/train_images/{jpg}")
-img_test = Image.open(f"/content/unet-improvement/semantic_segmentation_unet/data/train_masks/{jpg[:-4] + '_mask.gif'}")
+x_train = torch.empty(1, 3, 224, 224).normal_()
+y_train = torch.empty(1, 3, 224, 224).normal_()
 
 
 convert_tensor = transforms.ToTensor()
 for jpg in os.listdir('images')[:20]:
-  x = Image.open(f"images{jpg}")
-  y = Image.open(f"images{jpg + '_mask.png'}")
+  x = Image.open(f"images/{jpg}")
+  y = Image.open(f"result/{jpg + '_mask.png'}")
   x = convert_tensor(x).unsqueeze(0).resize_((1,3,224,224))
   y = convert_tensor(y).unsqueeze(0).resize_((1,2,224,224))
   x_train = torch.cat((x_train, x))
