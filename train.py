@@ -16,7 +16,7 @@ for jpg in os.listdir('images')[:20]:
   x = Image.open(f"images/{jpg}")
   y = Image.open(f"result/{jpg + '_mask.png'}")
   x = convert_tensor(x).unsqueeze(0).resize_((1,3,224,224))
-  y = convert_tensor(y).unsqueeze(0).resize_((1,2,224,224))
+  y = convert_tensor(y).unsqueeze(0).resize_((1,3,224,224))
   x_train = torch.cat((x_train, x))
   y_train = torch.cat((y_train, y))
 
