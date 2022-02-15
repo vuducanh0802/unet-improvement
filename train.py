@@ -14,7 +14,7 @@ y_train = torch.empty(1, 3, 224, 224).normal_()
 convert_tensor = transforms.ToTensor()
 for jpg in os.listdir('images')[:20]:
   x = Image.open(f"images/{jpg}")
-  y = Image.open(f"result/{jpg + '_mask.png'}")
+  y = Image.open(f"result/{jpg[:-10]+ ':' +jpg[-9:-7]+ ':' + jpg[-6:-4] + '.png_mask.png'}")
   x = convert_tensor(x).unsqueeze(0).resize_((1,3,224,224))
   y = convert_tensor(y).unsqueeze(0).resize_((1,3,224,224))
   x_train = torch.cat((x_train, x))
@@ -23,7 +23,7 @@ for jpg in os.listdir('images')[:20]:
 x_train = x_train[1:]
 y_train = y_train[1:]
 
-encoders = ['unet_encoder','resnet18','resnet34','resnet50','resnet101','resnet152']
+encoders = ['unet_encoder']#,'resnet18','resnet34','resnet50','resnet101','resnet152']
 for encoder in encoders:
   net = Unet(backbone_name=encoder,classes=1)
 
