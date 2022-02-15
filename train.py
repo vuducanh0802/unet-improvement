@@ -41,4 +41,5 @@ for encoder in encoders:
           optimizer.step()
       losses.append(loss)
   plt.plot(losses,label=encoder)
+plt.savefig('result.png')
 plt.legend()
