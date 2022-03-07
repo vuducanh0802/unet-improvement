@@ -1,4 +1,5 @@
-"""Implementation of UNet"""
+"""Implementation of UNet-Resnet18"""
+"""Architecture based on: https://www.researchgate.net/publication/345841396/figure/fig5/AS:959983546019840@1605889321027/Architecture-of-ResNet-UNet-The-structure-of-the-ResNet-UNet-uses-the-traditional-UNet.png """
 import pathlib
 import yaml
 
