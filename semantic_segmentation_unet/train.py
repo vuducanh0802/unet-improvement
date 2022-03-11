@@ -4,7 +4,7 @@ from albumentations.pytorch import ToTensorV2
 from tqdm import tqdm
 import torch.nn as nn
 import torch.optim as optim
-from model import UNET
+from model import UNet
 from utils import (
     load_checkpoint,
     save_checkpoint,
@@ -19,14 +19,14 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 16
 NUM_EPOCHS = 3
 NUM_WORKERS = 2
-IMAGE_HEIGHT = 160  # 1280 originally
-IMAGE_WIDTH = 240  # 1918 originally
+IMAGE_HEIGHT = 64  # 1280 originally
+IMAGE_WIDTH = 64  # 1918 originally
 PIN_MEMORY = True
 LOAD_MODEL = False
-TRAIN_IMG_DIR = "data/train_images/"
-TRAIN_MASK_DIR = "data/train_masks/"
-VAL_IMG_DIR = "data/val_images/"
-VAL_MASK_DIR = "data/val_masks/"
+TRAIN_IMG_DIR = "/content/lens_dataset_1/rois"
+TRAIN_MASK_DIR = "/content/lens_dataset_1/masks"
+VAL_IMG_DIR = "/content/lens_dataset_2/rois"
+VAL_MASK_DIR = "/content/lens_dataset_2/masks"
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):
     loop = tqdm(loader)
@@ -78,7 +78,7 @@ def main():
         ],
     )
 
-    model = UNET(in_channels=3, out_channels=1).to(DEVICE)
+    model = UNet(in_channels=3, out_channels=1).to(DEVICE)
     loss_fn = nn.BCEWithLogitsLoss()
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
