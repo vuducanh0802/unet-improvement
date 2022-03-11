@@ -19,14 +19,14 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 16
 NUM_EPOCHS = 100
 NUM_WORKERS = 2
-IMAGE_HEIGHT = 64  # 1280 originally
-IMAGE_WIDTH = 64  # 1918 originally
+IMAGE_HEIGHT = 224  # 1280 originally
+IMAGE_WIDTH = 224  # 1918 originally
 PIN_MEMORY = True
 LOAD_MODEL = False
-TRAIN_IMG_DIR = "/content/lens_dataset_1/rois"
-TRAIN_MASK_DIR = "/content/lens_dataset_1/masks"
-VAL_IMG_DIR = "/content/lens_dataset_2/rois"
-VAL_MASK_DIR = "/content/lens_dataset_2/masks"
+TRAIN_IMG_DIR = "/content/rois"
+TRAIN_MASK_DIR = "/content/masks"
+VAL_IMG_DIR = "/content/rois_val"
+VAL_MASK_DIR = "/content/mask_val"
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):
     loop = tqdm(loader)
@@ -54,9 +54,9 @@ def main():
     train_transform = A.Compose(
         [
             A.Resize(height=IMAGE_HEIGHT, width=IMAGE_WIDTH),
-            A.Rotate(limit=35, p=1.0),
-            A.HorizontalFlip(p=0.5),
-            A.VerticalFlip(p=0.1),
+            # A.Rotate(limit=35, p=1.0),
+            # A.HorizontalFlip(p=0.5),
+            # A.VerticalFlip(p=0.1),
             A.Normalize(
                 mean=[0.0, 0.0, 0.0],
                 std=[1.0, 1.0, 1.0],
@@ -78,7 +78,7 @@ def main():
         ],
     )
 
-    model = UNet(in_channels=3, out_channels=1).to(DEVICE)
+    model = UNet(in_chans=3).to(DEVICE)
     loss_fn = nn.BCEWithLogitsLoss()
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
