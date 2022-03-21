@@ -5,25 +5,12 @@ import torch
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset as BaseDataset
 
-import cv2
 import numpy as np
 import os
 import argparse
+# !pip install git+https://github.com/qubvel/segmentation_models
 
 class Dataset(BaseDataset):
-    """CamVid Dataset. Read images, apply augmentation and preprocessing transformations.
-
-    Args:
-        images_dir (str): path to images folder
-        masks_dir (str): path to segmentation masks folder
-        class_values (list): values of classes to extract from segmentation mask
-        augmentation (albumentations.Compose): data transfromation pipeline
-            (e.g. flip, scale, etc.)
-        preprocessing (albumentations.Compose): data preprocessing
-            (e.g. noralization, shape manipulation, etc.)
-
-    """
-
     CLASSES = ['sky', 'building', 'pole', 'road', 'pavement',
                'tree', 'signsymbol', 'fence', 'car',
                'pedestrian', 'bicyclist', 'unlabelled']
@@ -166,10 +153,6 @@ def train(backbone, DATA_DIR):
             max_score = valid_logs['iou_score']
             torch.save(model, './best_model.pth')
             print('Model saved!')
-
-        if i == 25:
-            optimizer.param_groups[0]['lr'] = 1e-5
-            print('Decrease decoder learning rate to 1e-5!')
 
 if __name__ == '__main__':
     train(args.model, args.dataset)
