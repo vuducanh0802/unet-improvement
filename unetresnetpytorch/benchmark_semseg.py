@@ -5,10 +5,10 @@ import torch
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset as BaseDataset
 
+import cv2
 import numpy as np
 import os
 import argparse
-# !pip install git+https://github.com/qubvel/segmentation_models
 
 class Dataset(BaseDataset):
     """CamVid Dataset. Read images, apply augmentation and preprocessing transformations.
