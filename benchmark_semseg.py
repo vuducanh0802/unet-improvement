@@ -1,4 +1,5 @@
-import segmentation_models as sm
+import segmentation_models_pytorch as sm
+from segmentation_models_pytorch.encoders import get_preprocessing_fn
 import tensorflow as tf
 from PIL import Image
 import pandas as pd
@@ -42,12 +43,9 @@ def train(backbone, dataset):
 
     x_train, x_val, y_train, y_test = train_test_split(X, Y, test_size=0.1, random_state=42)
 
-    sm.set_framework('tf.keras')
-
-    sm.framework()
 
     BACKBONE = backbone
-    preprocess_input = sm.get_preprocessing(BACKBONE)
+    preprocess_input = get_preprocessing_fn(BACKBONE, pretrained='imagenet')
 
 
     # preprocess input
