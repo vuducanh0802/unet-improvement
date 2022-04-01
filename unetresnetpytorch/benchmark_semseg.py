@@ -11,9 +11,7 @@ import argparse
 # !pip install git+https://github.com/qubvel/segmentation_models
 
 class Dataset(BaseDataset):
-    CLASSES = ['sky', 'building', 'pole', 'road', 'pavement',
-               'tree', 'signsymbol', 'fence', 'car',
-               'pedestrian', 'bicyclist', 'unlabelled']
+    CLASSES = []
 
     def __init__(
             self,
